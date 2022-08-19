@@ -30,7 +30,6 @@ func main() {
 			log.Fatal(err);
 		}
 		sliced := strings.Split(string(rawMD), "\n")
-		fmt.Println(string(sliced[11]))
 		// fuck line 12, all my homies hate line 12.
 		newRawMD := strings.Join(sliced[:11], "\n") + strings.Join(sliced[12:], "\n")
 
@@ -46,4 +45,6 @@ func main() {
 			return
 		}
 	}
+
+	fmt.Println("Done... probably")
 }
