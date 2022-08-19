@@ -17,18 +17,33 @@ func create(p string) (*os.File, error) {
 }
 
 func main() {
-	// argsWithProg := os.Args
-	// argsWithoutProg := argsWithProg[1:]
-	// if len(argsWithoutProg) < 1 {
-	// 	log.Fatal("Expected input file as argument")
-	// }
-
-	rawMD, err := os.ReadFile("./in/chapters/1.md")
-	if err != nil {
-		log.Fatal(err);
+	argsWithProg := os.Args
+	argsWithoutProg := argsWithProg[1:]
+	if len(argsWithoutProg) < 1 {
+		log.Fatal("Expected input file as argument")
 	}
 
-	sliced := strings.Split(string(rawMD), "\n")
+	// I know how many chapters we have and the name of the files is the number of the chapter soooo...
+	for i := 1; i <= 53; i++ {
+		rawMD, err := os.ReadFile(fmt.Sprintf("./%s/chapters/%d.md", argsWithoutProg[0], i))
+		if err != nil {
+			log.Fatal(err);
+		}
+		sliced := strings.Split(string(rawMD), "\n")
+		fmt.Println(string(sliced[11]))
+		// fuck line 12, all my homies hate line 12.
+		newRawMD := strings.Join(sliced[:11], "\n") + strings.Join(sliced[12:], "\n")
 
-	fmt.Println(string(sliced[11]))
+		f, err := create(fmt.Sprintf("./%s/chapters/%d.md", argsWithoutProg[0], i))
+		if err != nil {
+			log.Fatal(err)
+			return
+		}
+		defer f.Close()
+		_, err2 := f.WriteString(newRawMD)
+		if err2 != nil {
+			log.Fatal(err2)
+			return
+		}
+	}
 }
