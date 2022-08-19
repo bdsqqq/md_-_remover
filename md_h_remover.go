@@ -31,7 +31,7 @@ func main() {
 		}
 		sliced := strings.Split(string(rawMD), "\n")
 		// fuck line 12, all my homies hate line 12.
-		newRawMD := strings.Join(sliced[:11], "\n") + strings.Join(sliced[12:], "\n")
+		newRawMD := strings.Join(sliced[:11], "\n") + "\n" + strings.Join(sliced[12:], "\n")
 
 		f, err := create(fmt.Sprintf("./%s/chapters/%d.md", argsWithoutProg[0], i))
 		if err != nil {
@@ -44,6 +44,7 @@ func main() {
 			log.Fatal(err2)
 			return
 		}
+		fmt.Printf("%d.md updated\n", i)
 	}
 
 	fmt.Println("Done... probably")
